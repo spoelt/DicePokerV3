@@ -1,4 +1,4 @@
-package com.spoelt.dicepoker.ui.theme
+package com.spoelt.dicepoker.core.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

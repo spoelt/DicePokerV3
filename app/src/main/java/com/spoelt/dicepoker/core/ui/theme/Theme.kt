@@ -1,4 +1,4 @@
-package com.spoelt.dicepoker.ui.theme
+package com.spoelt.dicepoker.core.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

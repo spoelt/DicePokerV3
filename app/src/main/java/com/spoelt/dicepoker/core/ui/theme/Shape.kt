@@ -1,8 +1,12 @@
-package com.spoelt.dicepoker.ui.theme
+@file:Suppress("MagicNumber")
+
+package com.spoelt.dicepoker.core.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
 import androidx.compose.ui.unit.dp
+
+val ButtonShape = RoundedCornerShape(50)
 
 val Shapes = Shapes(
     small = RoundedCornerShape(4.dp),

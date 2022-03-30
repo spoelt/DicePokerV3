@@ -119,7 +119,7 @@ private fun FilledDPTextFieldPreview() {
 )
 @Composable
 @Suppress("UnusedPrivateMember")
-private fun DPTextFieldWithErrorPreview(){
+private fun DPTextFieldWithErrorPreview() {
     DicePokerTheme {
         DPTextField(
             text = "Text Field",

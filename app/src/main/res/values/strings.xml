@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DicePoker</string>
+
+    <!-- Bottom Bar -->
+    <string name="bottom_bar_home">Home</string>
+    <string name="bottom_bar_high_scores">High Scores</string>
+    <string name="bottom_bar_rules">Rules</string>
 </resources>

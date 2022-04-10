@@ -3,41 +3,37 @@ package com.spoelt.dicepoker
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
+import androidx.navigation.compose.rememberNavController
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.spoelt.dicepoker.core.BottomBarState
+import com.spoelt.dicepoker.core.ui.components.DPBottomBar
+import com.spoelt.dicepoker.core.ui.components.NavGraphs
 import com.spoelt.dicepoker.core.ui.theme.DicePokerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
         setContent {
+            val scaffoldState = rememberScaffoldState()
+            val navController = rememberNavController()
+
             DicePokerTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                Scaffold(
+                    scaffoldState = scaffoldState,
+                    bottomBar = {
+                        DPBottomBar(
+                            bottomBarState = BottomBarState.VISIBLE,
+                            navController = navController
+                        )
+                    }
                 ) {
-                    Greeting("Android")
+                    DestinationsNavHost(navGraph = NavGraphs.root, navController = navController)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    DicePokerTheme {
-        Greeting("Android")
     }
 }

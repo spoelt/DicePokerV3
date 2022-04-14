@@ -5,4 +5,12 @@
     <string name="bottom_bar_home">Home</string>
     <string name="bottom_bar_high_scores">High Scores</string>
     <string name="bottom_bar_rules">Rules</string>
+
+    <!-- Game Options -->
+    <string name="content_description_columns_icon">Number of Columns Icon</string>
+    <string name="content_description_expand_more">Expand</string>
+    <string name="select_number_of_columns">Select Number Of Columns</string>
+    <string name="columns_selected">%s Column(s)</string>
+    <string name="select_number_of_players">Select Number Of Players</string>
+    <string name="players_selected">%s Players</string>
 </resources>

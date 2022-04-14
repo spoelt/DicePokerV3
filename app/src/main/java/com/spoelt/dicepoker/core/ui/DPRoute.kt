@@ -6,30 +6,30 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Rule
 import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.spoelt.dicepoker.R
-import com.spoelt.dicepoker.core.ui.components.destinations.DirectionDestination
-import com.spoelt.dicepoker.core.ui.components.destinations.HighScoresScreenDestination
-import com.spoelt.dicepoker.core.ui.components.destinations.HomeScreenDestination
-import com.spoelt.dicepoker.core.ui.components.destinations.RulesScreenDestination
+import com.spoelt.dicepoker.core.ui.destinations.HighScoresScreenDestination
+import com.spoelt.dicepoker.core.ui.destinations.HomeScreenDestination
+import com.spoelt.dicepoker.core.ui.destinations.RulesScreenDestination
 
-sealed class Route(
-    val destination: DirectionDestination,
+sealed class DPRoute(
+    val destination: DirectionDestinationSpec,
     val icon: ImageVector,
     @StringRes val label: Int
 ) {
-    object Home : Route(
+    object Home : DPRoute(
         destination = HomeScreenDestination,
         icon = Icons.Default.Home,
         label = R.string.bottom_bar_home
     )
 
-    object HighScores : Route(
+    object HighScores : DPRoute(
         destination = HighScoresScreenDestination,
         icon = Icons.Outlined.EmojiEvents,
         label = R.string.bottom_bar_high_scores
     )
 
-    object Rules : Route(
+    object Rules : DPRoute(
         destination = RulesScreenDestination,
         icon = Icons.Default.Rule,
         label = R.string.bottom_bar_rules
@@ -37,7 +37,7 @@ sealed class Route(
 }
 
 val bottomBarRoutes = listOf(
-    Route.Home,
-    Route.HighScores,
-    Route.Rules
+    DPRoute.Home,
+    DPRoute.HighScores,
+    DPRoute.Rules
 )

@@ -8,8 +8,8 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.spoelt.dicepoker.core.BottomBarState
+import com.spoelt.dicepoker.core.ui.NavGraphs
 import com.spoelt.dicepoker.core.ui.components.DPBottomBar
-import com.spoelt.dicepoker.core.ui.components.NavGraphs
 import com.spoelt.dicepoker.core.ui.theme.DicePokerTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,7 +31,10 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 ) {
-                    DestinationsNavHost(navGraph = NavGraphs.root, navController = navController)
+                    DestinationsNavHost(
+                        navGraph = NavGraphs.root,
+                        navController = navController
+                    )
                 }
             }
         }

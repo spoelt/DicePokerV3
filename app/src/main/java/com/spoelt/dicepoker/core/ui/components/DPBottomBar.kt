@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.navigation.navigateTo
 import com.spoelt.dicepoker.core.BottomBarState
 import com.spoelt.dicepoker.core.ui.bottomBarRoutes
+import com.spoelt.dicepoker.core.ui.navDestination
 import com.spoelt.dicepoker.core.ui.theme.DicePokerTheme
 
 @Composable
@@ -22,13 +23,12 @@ fun DPBottomBar(
     navController: NavController,
 ) {
     if (bottomBarState == BottomBarState.VISIBLE) {
-        val currentRoute: String? =
-            navController.currentBackStackEntryAsState().value?.destination?.route
+        val currentDestination = navController.currentBackStackEntryAsState().value?.navDestination
 
         BottomNavigation {
             bottomBarRoutes.forEach { b ->
                 BottomNavigationItem(
-                    selected = currentRoute == b.destination.route,
+                    selected = currentDestination == b.destination,
                     onClick = {
                         navController.navigateTo(b.destination) {
                             launchSingleTop = true

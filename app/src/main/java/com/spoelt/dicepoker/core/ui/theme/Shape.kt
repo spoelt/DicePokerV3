@@ -16,4 +16,5 @@ val Shapes = Shapes(
 
 val TextFieldShape = RoundedCornerShape(50)
 
-val CardShape = RoundedCornerShape(50)
+val ExpandableCardShape = RoundedCornerShape(50)
+val ExpandedCardShape = RoundedCornerShape(25)

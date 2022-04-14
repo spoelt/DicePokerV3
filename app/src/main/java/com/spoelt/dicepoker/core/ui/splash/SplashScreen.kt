@@ -66,4 +66,3 @@ fun SplashScreen(navigator: DestinationsNavigator) {
         )
     }
 }
-

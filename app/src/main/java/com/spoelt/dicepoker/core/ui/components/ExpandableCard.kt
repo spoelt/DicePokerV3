@@ -21,8 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.spoelt.dicepoker.R
-import com.spoelt.dicepoker.core.ui.theme.CardShape
 import com.spoelt.dicepoker.core.ui.theme.DicePokerTheme
+import com.spoelt.dicepoker.core.ui.theme.ExpandableCardShape
 
 @Composable
 fun ExpandableCard(
@@ -34,7 +34,7 @@ fun ExpandableCard(
 ) {
     Card(
         modifier = modifier,
-        shape = CardShape,
+        shape = ExpandableCardShape,
         border = BorderStroke(
             width = dimensionResource(id = R.dimen.border_width),
             color = MaterialTheme.colors.primary

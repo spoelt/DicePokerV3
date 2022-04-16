@@ -35,7 +35,8 @@ fun ExpandedCard(
     icon: ImageVector,
     selectionTextResId: Int,
     valueRange: ClosedFloatingPointRange<Float>,
-    stepSize: Int
+    stepSize: Int,
+    sliderEnabled: Boolean
 ) {
     Card(
         modifier = modifier,
@@ -79,7 +80,8 @@ fun ExpandedCard(
                 value = selectedValue.toFloat(),
                 onValueChange = { onSelectedValueChanged(it.toInt()) },
                 valueRange = valueRange,
-                steps = stepSize
+                steps = stepSize,
+                enabled = sliderEnabled
             )
         }
     }
@@ -98,15 +100,14 @@ fun ExpandedCard(
 private fun ExpandedCardInitialStatePreview() {
     DicePokerTheme {
         ExpandedCard(
-            modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_medium))
-                .fillMaxWidth(),
+            modifier = Modifier,
             selectedValue = 1,
             onSelectedValueChanged = {},
             icon = Icons.Default.ViewWeek,
             selectionTextResId = R.string.columns_selected,
             valueRange = 1f..3f,
-            stepSize = 1
+            stepSize = 1,
+            sliderEnabled = true
         )
     }
 }
@@ -130,7 +131,8 @@ private fun ExpandedCardValueSelectedPreview() {
             icon = Icons.Default.ViewWeek,
             selectionTextResId = R.string.columns_selected,
             valueRange = 1f..3f,
-            stepSize = 1
+            stepSize = 1,
+            sliderEnabled = true
         )
     }
 }

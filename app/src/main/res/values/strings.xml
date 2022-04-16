@@ -9,8 +9,11 @@
     <!-- Game Options -->
     <string name="content_description_columns_icon">Number of Columns Icon</string>
     <string name="content_description_expand_more">Expand</string>
+    <string name="content_description_logo_light">Dice Poker Logo</string>
     <string name="select_number_of_columns">Select Number Of Columns</string>
     <string name="columns_selected">%s Column(s)</string>
     <string name="select_number_of_players">Select Number Of Players</string>
     <string name="players_selected">%s Players</string>
+    <string name="next">Next</string>
+    <string name="error_creating_game">An error occurred when creating your game. Please try again.</string>
 </resources>

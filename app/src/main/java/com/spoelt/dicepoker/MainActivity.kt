@@ -11,7 +11,9 @@ import com.spoelt.dicepoker.core.BottomBarState
 import com.spoelt.dicepoker.core.ui.NavGraphs
 import com.spoelt.dicepoker.core.ui.components.DPBottomBar
 import com.spoelt.dicepoker.core.ui.theme.DicePokerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 

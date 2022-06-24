@@ -22,3 +22,5 @@
 .cxx
 local.properties
 **/build/
+/.idea/deploymentTargetDropDown.xml
+/.idea/render.experimental.xml

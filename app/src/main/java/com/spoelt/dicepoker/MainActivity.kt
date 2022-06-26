@@ -8,13 +8,14 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
-import com.spoelt.dicepoker.core.BottomBarState
-import com.spoelt.dicepoker.core.ui.NavGraphs
-import com.spoelt.dicepoker.core.ui.components.DPBottomBar
-import com.spoelt.dicepoker.core.ui.theme.DicePokerTheme
+import com.spoelt.dicepoker.ui.navigation.BottomBarState
+import com.spoelt.dicepoker.ui.navigation.DPBottomBar
+import com.spoelt.dicepoker.ui.navigation.routesWithVisibleBottomBar
+import com.spoelt.dicepoker.ui.theme.DicePokerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +29,8 @@ class MainActivity : ComponentActivity() {
             val useDarkIcons = !isSystemInDarkTheme()
             val scaffoldState = rememberScaffoldState()
             val navController = rememberNavController()
+            val currentDestination =
+                navController.currentBackStackEntryAsState().value?.navDestination
 
             SideEffect {
                 systemUiController.setSystemBarsColor(
@@ -41,7 +44,10 @@ class MainActivity : ComponentActivity() {
                     scaffoldState = scaffoldState,
                     bottomBar = {
                         DPBottomBar(
-                            bottomBarState = BottomBarState.VISIBLE,
+                            bottomBarState = if (routesWithVisibleBottomBar.contains(
+                                    currentDestination?.route
+                                )
+                            ) BottomBarState.VISIBLE else BottomBarState.HIDDEN,
                             navController = navController
                         )
                     }

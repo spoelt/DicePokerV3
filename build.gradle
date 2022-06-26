@@ -9,7 +9,7 @@ buildscript {
         ktlintPluginVersion = "10.2.1"
 
         // https://developer.android.com/jetpack/androidx/releases/hilt
-        hiltVersion = "2.38.1"
+        hiltVersion = "2.42"
     }
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"

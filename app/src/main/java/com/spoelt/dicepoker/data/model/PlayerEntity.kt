@@ -3,7 +3,7 @@ package com.spoelt.dicepoker.data.model
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
+import java.util.UUID
 
 @Entity(tableName = "Player")
 data class PlayerEntity(

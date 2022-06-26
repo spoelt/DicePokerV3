@@ -13,12 +13,17 @@ class CreateGameViewModel @Inject constructor() : ViewModel() {
         MutableStateFlow(CreateGameViewState.Initial)
     val viewState: StateFlow<CreateGameViewState> = _viewState
 
+    @Suppress("UnusedPrivateMember")
     fun setSelectedColumns(columns: Float) {
+        //TODO
     }
 
+    @Suppress("UnusedPrivateMember")
     fun setSelectedPlayers(players: Float) {
+        //TODO
     }
 
     fun createGame() {
+        //TODO
     }
 }

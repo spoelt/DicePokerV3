@@ -15,15 +15,15 @@ class CreateGameViewModel @Inject constructor() : ViewModel() {
 
     @Suppress("UnusedPrivateMember")
     fun setSelectedColumns(columns: Float) {
-        //TODO
+        // TODO
     }
 
     @Suppress("UnusedPrivateMember")
     fun setSelectedPlayers(players: Float) {
-        //TODO
+        // TODO
     }
 
     fun createGame() {
-        //TODO
+        // TODO
     }
 }

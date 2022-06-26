@@ -14,8 +14,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.spoelt.dicepoker.ui.navigation.BottomBarState
 import com.spoelt.dicepoker.ui.navigation.DPBottomBar
-import com.spoelt.dicepoker.ui.theme.DicePokerTheme
 import com.spoelt.dicepoker.ui.navigation.routesWithVisibleBottomBar
+import com.spoelt.dicepoker.ui.theme.DicePokerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -14,14 +14,11 @@ class CreateGameViewModel @Inject constructor() : ViewModel() {
     val viewState: StateFlow<CreateGameViewState> = _viewState
 
     fun setSelectedColumns(columns: Float) {
-
     }
 
     fun setSelectedPlayers(players: Float) {
-
     }
 
     fun createGame() {
-
     }
 }

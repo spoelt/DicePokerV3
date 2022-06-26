@@ -31,10 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.spoelt.dicepoker.R
 import com.spoelt.dicepoker.constants.LOGO_WIDTH_PERCENTAGE
+import com.spoelt.dicepoker.domain.model.GameOptions
 import com.spoelt.dicepoker.ui.components.PrimaryButton
 import com.spoelt.dicepoker.ui.components.VerticalSpacer
 import com.spoelt.dicepoker.ui.theme.DicePokerTheme
-import com.spoelt.dicepoker.domain.model.GameOptions
 
 @Suppress("MagicNumber")
 private val COLUMN_RANGE = 1f..3f

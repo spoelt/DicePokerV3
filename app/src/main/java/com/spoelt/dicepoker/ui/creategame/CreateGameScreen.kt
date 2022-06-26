@@ -17,5 +17,6 @@ fun CreateGameScreen(
         viewState = viewState,
         onColumnsSelected = viewModel::setSelectedColumns,
         onPlayersSelected = viewModel::setSelectedPlayers,
-        onCreateGameClicked = viewModel::createGame)
+        onCreateGameClicked = viewModel::createGame
+    )
 }

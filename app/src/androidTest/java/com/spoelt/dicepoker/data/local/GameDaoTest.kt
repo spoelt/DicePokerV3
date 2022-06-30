@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -56,7 +57,7 @@ class GameDaoTest {
             insertPlayers(testPlayers)
         }
 
-        val result = dao.getGamesWithPlayers()
+        val result = dao.getGamesWithPlayers().first()
         assertThat(result.size).isEqualTo(1)
 
         val resultPlayerIds = result.flatMap { r -> r.players.map { player -> player.playerId } }
@@ -69,7 +70,7 @@ class GameDaoTest {
             dao.insertGame(game)
         }
         dao.deleteAllGames()
-        val result = dao.getGamesWithPlayers()
+        val result = dao.getGamesWithPlayers().first()
         assertThat(result).isEmpty()
     }
 
@@ -80,7 +81,7 @@ class GameDaoTest {
             insertPlayers(testPlayers)
             deleteAllPlayers()
         }
-        val result = dao.getGamesWithPlayers()
+        val result = dao.getGamesWithPlayers().first()
         assertThat(result.flatMap { it.players }).isEmpty()
     }
 }

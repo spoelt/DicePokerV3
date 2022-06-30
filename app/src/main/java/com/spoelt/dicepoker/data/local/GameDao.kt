@@ -8,12 +8,13 @@ import androidx.room.Transaction
 import com.spoelt.dicepoker.data.model.GameEntity
 import com.spoelt.dicepoker.data.model.GameWithPlayers
 import com.spoelt.dicepoker.data.model.PlayerEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GameDao {
     @Transaction
     @Query("SELECT * FROM Game")
-    suspend fun getGamesWithPlayers(): List<GameWithPlayers>
+    fun getGamesWithPlayers(): Flow<List<GameWithPlayers>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertGame(game: GameEntity): Long

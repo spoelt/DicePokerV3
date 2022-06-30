@@ -7,7 +7,9 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -29,8 +31,7 @@ class MainActivity : ComponentActivity() {
             val useDarkIcons = !isSystemInDarkTheme()
             val scaffoldState = rememberScaffoldState()
             val navController = rememberNavController()
-            val currentDestination =
-                navController.currentBackStackEntryAsState().value?.navDestination
+            val currentBackStackEntry by navController.currentBackStackEntryAsState()
 
             SideEffect {
                 systemUiController.setSystemBarsColor(
@@ -44,11 +45,9 @@ class MainActivity : ComponentActivity() {
                     scaffoldState = scaffoldState,
                     bottomBar = {
                         DPBottomBar(
-                            bottomBarState = if (routesWithVisibleBottomBar.contains(
-                                    currentDestination?.route
-                                )
-                            ) BottomBarState.VISIBLE else BottomBarState.HIDDEN,
-                            navController = navController
+                            bottomBarState = updateBottomBarState(currentBackStackEntry),
+                            navController = navController,
+                            currentDestination = currentBackStackEntry?.destination
                         )
                     }
                 ) {
@@ -60,4 +59,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun updateBottomBarState(currentDestination: NavBackStackEntry?) =
+        if (routesWithVisibleBottomBar.contains(currentDestination?.destination?.route)) {
+            BottomBarState.VISIBLE
+        } else {
+            BottomBarState.HIDDEN
+        }
 }

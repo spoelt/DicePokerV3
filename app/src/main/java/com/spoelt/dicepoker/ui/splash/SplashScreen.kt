@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.spoelt.dicepoker.R
 import com.spoelt.dicepoker.constants.SPLASH_SCREEN_ANIMATION_DURATION
@@ -28,7 +29,8 @@ import com.spoelt.dicepoker.constants.SPLASH_SCREEN_INTERPOLATION_TENSION
 import com.spoelt.dicepoker.destinations.CreateGameScreenDestination
 import kotlinx.coroutines.delay
 
-@Destination(start = true)
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun SplashScreen(navigator: DestinationsNavigator) {
     val scale = remember {

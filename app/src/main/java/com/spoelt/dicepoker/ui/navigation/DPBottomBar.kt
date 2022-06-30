@@ -9,26 +9,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.NavDestination
 import androidx.navigation.compose.rememberNavController
-import com.ramcosta.composedestinations.navigation.navigateTo
-import com.spoelt.dicepoker.navDestination
+import com.ramcosta.composedestinations.navigation.navigate
 import com.spoelt.dicepoker.ui.theme.DicePokerTheme
 
 @Composable
 fun DPBottomBar(
+    currentDestination: NavDestination?,
     bottomBarState: BottomBarState,
     navController: NavController,
 ) {
     if (bottomBarState == BottomBarState.VISIBLE) {
-        val currentDestination = navController.currentBackStackEntryAsState().value?.navDestination
-
         BottomNavigation {
             bottomBarRoutes.forEach { b ->
                 BottomNavigationItem(
                     selected = currentDestination == b.destination,
                     onClick = {
-                        navController.navigateTo(b.destination) {
+                        navController.navigate(b.destination) {
                             launchSingleTop = true
                         }
                     },
@@ -59,7 +57,8 @@ private fun DPBottomBarPreview() {
     DicePokerTheme {
         DPBottomBar(
             bottomBarState = BottomBarState.VISIBLE,
-            navController = rememberNavController()
+            navController = rememberNavController(),
+            currentDestination = null
         )
     }
 }

@@ -27,7 +27,6 @@ android {
             }
         }
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -52,7 +51,6 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-
     applicationVariants.all { variant ->
         kotlin.sourceSets {
             getByName(variant.name) {

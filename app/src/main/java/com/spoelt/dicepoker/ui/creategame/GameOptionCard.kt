@@ -20,8 +20,9 @@ fun GameOptionCard(
     initialTextResId: Int,
     selectionTextResId: Int,
     valueRange: ClosedFloatingPointRange<Float>,
-    stepSize: Int = 1,
-    sliderEnabled: Boolean
+    steps: Int = 1,
+    sliderEnabled: Boolean,
+    onCardClicked: () -> Unit
 ) {
     when {
         isExpanded -> ExpandedCard(
@@ -31,15 +32,17 @@ fun GameOptionCard(
             icon = icon,
             selectionTextResId = selectionTextResId,
             valueRange = valueRange,
-            stepSize = stepSize,
-            sliderEnabled = sliderEnabled
+            steps = steps,
+            sliderEnabled = sliderEnabled,
+            onCardClicked = onCardClicked
         )
         else -> ExpandableCard(
             modifier = modifier,
             selectedValue = selectedValue,
             icon = icon,
             initialTextResId = initialTextResId,
-            selectionTextResId = selectionTextResId
+            selectionTextResId = selectionTextResId,
+            onCardClicked = onCardClicked
         )
     }
 }
@@ -64,7 +67,8 @@ private fun GameOptionCardExpandablePreview() {
             initialTextResId = R.string.select_number_of_columns,
             selectionTextResId = R.string.columns_selected,
             valueRange = 1f..3f,
-            sliderEnabled = true
+            sliderEnabled = true,
+            onCardClicked = {}
         )
     }
 }
@@ -89,7 +93,8 @@ private fun GameOptionCardExpandedPreview() {
             initialTextResId = R.string.select_number_of_columns,
             selectionTextResId = R.string.columns_selected,
             valueRange = 1f..3f,
-            sliderEnabled = true
+            sliderEnabled = true,
+            onCardClicked = {}
         )
     }
 }

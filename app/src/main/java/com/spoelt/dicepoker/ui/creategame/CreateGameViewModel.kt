@@ -13,17 +13,57 @@ class CreateGameViewModel @Inject constructor() : ViewModel() {
         MutableStateFlow(CreateGameViewState.Initial)
     val viewState: StateFlow<CreateGameViewState> = _viewState
 
-    @Suppress("UnusedPrivateMember")
     fun setSelectedColumns(columns: Float) {
-        // TODO
+        val currentGameOptions = _viewState.value.gameOptions
+        val isColumnCardCurrentlyExpanded = _viewState.value.isColumnCardExpanded
+        val isPlayerCardCurrentlyExpanded = _viewState.value.isPlayerCardExpanded
+
+        _viewState.value = CreateGameViewState.Active(
+            gameOptions = currentGameOptions.copy(numberOfColumns = columns),
+            isColumnCardExpanded = isColumnCardCurrentlyExpanded,
+            isPlayerCardExpanded = isPlayerCardCurrentlyExpanded
+        )
     }
 
-    @Suppress("UnusedPrivateMember")
     fun setSelectedPlayers(players: Float) {
-        // TODO
+        val currentGameOptions = _viewState.value.gameOptions
+        val isColumnCardCurrentlyExpanded = _viewState.value.isColumnCardExpanded
+        val isPlayerCardCurrentlyExpanded = _viewState.value.isPlayerCardExpanded
+
+        _viewState.value = CreateGameViewState.Active(
+            gameOptions = currentGameOptions.copy(numberOfPlayers = players),
+            isColumnCardExpanded = isColumnCardCurrentlyExpanded,
+            isPlayerCardExpanded = isPlayerCardCurrentlyExpanded
+        )
     }
 
-    fun createGame() {
-        // TODO
+    fun updatePlayerCardState() {
+        val currentGameOptions = _viewState.value.gameOptions
+        val isColumnCardCurrentlyExpanded = _viewState.value.isColumnCardExpanded
+        val isPlayerCardCurrentlyExpanded = _viewState.value.isPlayerCardExpanded
+
+        _viewState.value = CreateGameViewState.Active(
+            gameOptions = when (currentGameOptions.numberOfPlayers) {
+                0f -> currentGameOptions.copy(numberOfPlayers = 1f)
+                else -> currentGameOptions
+            },
+            isColumnCardExpanded = isColumnCardCurrentlyExpanded,
+            isPlayerCardExpanded = !isPlayerCardCurrentlyExpanded
+        )
+    }
+
+    fun updateColumnCardState() {
+        val currentGameOptions = _viewState.value.gameOptions
+        val isColumnCardCurrentlyExpanded = _viewState.value.isColumnCardExpanded
+        val isPlayerCardCurrentlyExpanded = _viewState.value.isPlayerCardExpanded
+
+        _viewState.value = CreateGameViewState.Active(
+            gameOptions = when (currentGameOptions.numberOfColumns) {
+                0f -> currentGameOptions.copy(numberOfColumns = 1f)
+                else -> currentGameOptions
+            },
+            isColumnCardExpanded = !isColumnCardCurrentlyExpanded,
+            isPlayerCardExpanded = isPlayerCardCurrentlyExpanded
+        )
     }
 }

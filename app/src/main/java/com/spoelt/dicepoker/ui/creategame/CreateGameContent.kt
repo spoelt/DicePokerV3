@@ -37,28 +37,33 @@ import com.spoelt.dicepoker.ui.components.VerticalSpacer
 import com.spoelt.dicepoker.ui.theme.DicePokerTheme
 
 @Suppress("MagicNumber")
-private val COLUMN_RANGE = 1f..3f
+private val COLUMN_RANGE = 1f..4f
 
 @Suppress("MagicNumber")
-private val PLAYER_RANGE = 1f..6f
+private val PLAYER_RANGE = 1f..7f
+
+@Suppress("MagicNumber")
+private val PLAYER_STEPS = 4
 
 /**
  * This Composable maintains the entire screen for handling the creation of games.
  *
  * @param[viewState] The current state of the screen to render.
- * @param[onColumnsSelected] A callback invoked when the user selects the number of columns of the
+ * @param[onColumnsSelected] A callback invoked when the user selects the number of columns.
+ * @param[onPlayersSelected] A callback invoked when the user selects the number of players.
+ * @param[onNextClicked] A callback invoked when the user clicks the button to create a new
  * game.
- * @param[onPlayersSelected] A callback invoked when the user selects the number of players of the
- * game.
- * @param[onCreateGameClicked] A callback invoked when the user clicks the button to create a new
- * game.
+ * @param[onColumnCardClicked] A callback invoked when the user clicks the column card.
+ * @param[onPlayerCardClicked] A callback invoked when the user clicks the player card.
  */
 @Composable
 fun CreateGameContent(
     viewState: CreateGameViewState,
     onColumnsSelected: (Float) -> Unit,
     onPlayersSelected: (Float) -> Unit,
-    onCreateGameClicked: () -> Unit
+    onNextClicked: () -> Unit,
+    onColumnCardClicked: () -> Unit,
+    onPlayerCardClicked: () -> Unit
 ) {
     Surface(
         color = MaterialTheme.colors.background
@@ -82,7 +87,9 @@ fun CreateGameContent(
                     isColumnCardExpanded = viewState.isColumnCardExpanded,
                     isPlayerCardExpanded = viewState.isPlayerCardExpanded,
                     onColumnsSelected = onColumnsSelected,
-                    onPlayersSelected = onPlayersSelected
+                    onPlayersSelected = onPlayersSelected,
+                    onColumnCardClicked = onColumnCardClicked,
+                    onPlayerCardClicked = onPlayerCardClicked
                 )
 
                 VerticalSpacer(height = 20.dp)
@@ -97,7 +104,7 @@ fun CreateGameContent(
 
                 PrimaryButton(
                     text = stringResource(id = R.string.next),
-                    onClick = onCreateGameClicked,
+                    onClick = onNextClicked,
                     enabled = viewState.buttonEnabled
                 )
             }
@@ -113,6 +120,9 @@ fun CreateGameContent(
     }
 }
 
+/**
+ * This Composable contains the logo displayed at the top of the screen.
+ */
 @Composable
 fun DicePokerLogo() {
     Image(
@@ -124,6 +134,19 @@ fun DicePokerLogo() {
     )
 }
 
+/**
+ * The [GameOptions] Composable contains two cards with which the user can select how the game
+ * should be set up.
+ *
+ * @param[gameOptions] An object containing the number of columns & players.
+ * @param[slidersEnabled] True if the slider is enabled, false otherwise.
+ * @param[isColumnCardExpanded] True if the column card is expanded, false otherwise.
+ * @param[isPlayerCardExpanded] True if the player card is expanded, false otherwise.
+ * @param[onColumnsSelected] A callback that is invoke when the user changes the value of columns.
+ * @param[onPlayersSelected] A callback that is invoke when the user changes the value of players.
+ * @param[onColumnCardClicked] A callback that is invoke when the user clicks on the columns card.
+ * @param[onPlayerCardClicked] A callback that is invoke when the user clicks on the players card.
+ */
 @Composable
 private fun GameOptions(
     gameOptions: GameOptions,
@@ -131,7 +154,9 @@ private fun GameOptions(
     isColumnCardExpanded: Boolean,
     isPlayerCardExpanded: Boolean,
     onColumnsSelected: (Float) -> Unit,
-    onPlayersSelected: (Float) -> Unit
+    onPlayersSelected: (Float) -> Unit,
+    onColumnCardClicked: () -> Unit,
+    onPlayerCardClicked: () -> Unit
 ) {
     GameOptionCard(
         isExpanded = isColumnCardExpanded,
@@ -141,7 +166,8 @@ private fun GameOptions(
         initialTextResId = R.string.select_number_of_columns,
         selectionTextResId = R.string.columns_selected,
         valueRange = COLUMN_RANGE,
-        sliderEnabled = slidersEnabled
+        sliderEnabled = slidersEnabled,
+        onCardClicked = onColumnCardClicked
     )
 
     VerticalSpacer(height = 20.dp)
@@ -154,7 +180,9 @@ private fun GameOptions(
         initialTextResId = R.string.select_number_of_players,
         selectionTextResId = R.string.players_selected,
         valueRange = PLAYER_RANGE,
-        sliderEnabled = slidersEnabled
+        sliderEnabled = slidersEnabled,
+        steps = PLAYER_STEPS,
+        onCardClicked = onPlayerCardClicked
     )
 }
 
@@ -190,7 +218,9 @@ private fun CreateGameContentPreview(
             viewState = createGameViewState,
             onColumnsSelected = {},
             onPlayersSelected = {},
-            onCreateGameClicked = {}
+            onNextClicked = {},
+            onPlayerCardClicked = {},
+            onColumnCardClicked = {}
         )
     }
 }

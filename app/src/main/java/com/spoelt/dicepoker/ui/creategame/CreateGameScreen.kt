@@ -5,6 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
+import timber.log.Timber
 
 @Destination
 @Composable
@@ -17,6 +18,10 @@ fun CreateGameScreen(
         viewState = viewState,
         onColumnsSelected = viewModel::setSelectedColumns,
         onPlayersSelected = viewModel::setSelectedPlayers,
-        onCreateGameClicked = viewModel::createGame
+        onNextClicked = {
+            Timber.d("onNextClicked")
+        },
+        onPlayerCardClicked = viewModel::updatePlayerCardState,
+        onColumnCardClicked = viewModel::updateColumnCardState
     )
 }

@@ -8,6 +8,7 @@ import com.spoelt.dicepoker.domain.model.GameOptions
  * @property[gameOptions] The current game options selected by the user.
  * @property[slidersEnabled] If true, the sliders on the game creation screen can accept changes,
  * false otherwise.
+ * @property[buttonEnabled] If true, the button can be clicked, false otherwise.
  * @property[isColumnCardExpanded] True if the card displaying the number of columns has been
  * clicked, false otherwise.
  * @property[isPlayerCardExpanded] True if the card displaying the number of players has been

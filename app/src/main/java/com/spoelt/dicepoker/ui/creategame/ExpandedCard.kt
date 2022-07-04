@@ -2,6 +2,7 @@ package com.spoelt.dicepoker.ui.creategame
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,11 +37,12 @@ fun ExpandedCard(
     icon: ImageVector,
     selectionTextResId: Int,
     valueRange: ClosedFloatingPointRange<Float>,
-    stepSize: Int,
-    sliderEnabled: Boolean
+    steps: Int,
+    sliderEnabled: Boolean,
+    onCardClicked: () -> Unit
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable { onCardClicked() },
         shape = ExpandedCardShape,
         border = BorderStroke(
             width = dimensionResource(id = R.dimen.border_width),
@@ -81,7 +83,7 @@ fun ExpandedCard(
                 value = selectedValue,
                 onValueChange = { onSelectedValueChanged(it) },
                 valueRange = valueRange,
-                steps = stepSize,
+                steps = steps,
                 enabled = sliderEnabled
             )
         }
@@ -107,8 +109,9 @@ private fun ExpandedCardInitialStatePreview() {
             icon = Icons.Default.ViewWeek,
             selectionTextResId = R.string.columns_selected,
             valueRange = 1f..3f,
-            stepSize = 1,
-            sliderEnabled = true
+            steps = 1,
+            sliderEnabled = true,
+            onCardClicked = {}
         )
     }
 }
@@ -132,8 +135,9 @@ private fun ExpandedCardValueSelectedPreview() {
             icon = Icons.Default.ViewWeek,
             selectionTextResId = R.string.columns_selected,
             valueRange = 1f..3f,
-            stepSize = 1,
-            sliderEnabled = true
+            steps = 1,
+            sliderEnabled = true,
+            onCardClicked = {}
         )
     }
 }

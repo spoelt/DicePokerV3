@@ -2,6 +2,7 @@ package com.spoelt.dicepoker.ui.creategame
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,10 +32,11 @@ fun ExpandableCard(
     selectedValue: Float,
     icon: ImageVector,
     initialTextResId: Int,
-    selectionTextResId: Int
+    selectionTextResId: Int,
+    onCardClicked: () -> Unit
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable { onCardClicked() },
         shape = ExpandableCardShape,
         border = BorderStroke(
             width = dimensionResource(id = R.dimen.border_width),
@@ -85,7 +87,8 @@ private fun ExpandableCardInitialStatePreview() {
             selectedValue = 0f,
             icon = Icons.Default.ViewWeek,
             initialTextResId = R.string.select_number_of_columns,
-            selectionTextResId = R.string.columns_selected
+            selectionTextResId = R.string.columns_selected,
+            onCardClicked = {}
         )
     }
 }
@@ -107,7 +110,8 @@ private fun ExpandableCardSelectedValuePreview() {
             selectedValue = 2f,
             icon = Icons.Default.ViewWeek,
             initialTextResId = R.string.select_number_of_columns,
-            selectionTextResId = R.string.columns_selected
+            selectionTextResId = R.string.columns_selected,
+            onCardClicked = {}
         )
     }
 }

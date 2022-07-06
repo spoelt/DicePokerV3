@@ -27,7 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.spoelt.dicepoker.R
 import com.spoelt.dicepoker.constants.LOGO_WIDTH_PERCENTAGE
@@ -71,7 +70,7 @@ fun CreateGameContent(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(dimensionResource(id = R.dimen.padding_large))
+                .padding(dimensionResource(id = R.dimen.padding_24))
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -79,7 +78,7 @@ fun CreateGameContent(
             ) {
                 DicePokerLogo()
 
-                VerticalSpacer(height = 48.dp)
+                VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_48))
 
                 GameOptions(
                     gameOptions = viewState.gameOptions,
@@ -92,14 +91,14 @@ fun CreateGameContent(
                     onPlayerCardClicked = onPlayerCardClicked
                 )
 
-                VerticalSpacer(height = 20.dp)
+                VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_20))
 
                 if (viewState is CreateGameViewState.CreationError) {
                     ErrorMessage(
                         messageId = R.string.error_creating_game
                     )
 
-                    VerticalSpacer(height = 20.dp)
+                    VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_20))
                 }
 
                 PrimaryButton(
@@ -170,7 +169,7 @@ private fun GameOptions(
         onCardClicked = onColumnCardClicked
     )
 
-    VerticalSpacer(height = 20.dp)
+    VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_20))
 
     GameOptionCard(
         isExpanded = isPlayerCardExpanded,
@@ -191,7 +190,7 @@ fun ErrorMessage(
     messageId: Int
 ) {
     Text(
-        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_12)),
         text = stringResource(id = messageId),
         color = MaterialTheme.colors.error,
         textAlign = TextAlign.Center,

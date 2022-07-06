@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.spoelt.dicepoker.R
 import com.spoelt.dicepoker.ui.components.HorizontalSpacer
 import com.spoelt.dicepoker.ui.theme.DicePokerTheme
@@ -51,24 +50,24 @@ fun ExpandedCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_medium))
+                .padding(dimensionResource(id = R.dimen.padding_12))
                 .fillMaxWidth()
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_medium)),
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_24)),
                     imageVector = icon,
                     contentDescription = stringResource(id = R.string.content_description_columns_icon)
                 )
-                HorizontalSpacer(width = 12.dp)
+                HorizontalSpacer(width = dimensionResource(id = R.dimen.spacer_12))
                 Text(
                     modifier = Modifier.weight(1f),
                     text = stringResource(id = selectionTextResId, selectedValue.toInt())
                 )
                 Icon(
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_medium)),
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_24)),
                     imageVector = Icons.Default.ExpandLess,
                     contentDescription = stringResource(id = R.string.content_description_expand_more)
                 )
@@ -76,8 +75,8 @@ fun ExpandedCard(
             Slider(
                 modifier = Modifier
                     .padding(
-                        start = dimensionResource(id = R.dimen.padding_extra_large),
-                        end = dimensionResource(id = R.dimen.padding_extra_large)
+                        start = dimensionResource(id = R.dimen.padding_48),
+                        end = dimensionResource(id = R.dimen.padding_48)
                     )
                     .fillMaxWidth(),
                 value = selectedValue,

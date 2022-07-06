@@ -7,3 +7,6 @@ const val SPLASH_SCREEN_INTERPOLATION_TENSION = 3f
 const val SPLASH_SCREEN_DELAY = 1500L
 
 const val LOGO_WIDTH_PERCENTAGE = 0.6f
+
+const val EMPTY_STRING = ""
+const val SINGLE_LINE = 1

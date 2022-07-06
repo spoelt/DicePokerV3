@@ -4,6 +4,7 @@ plugins {
     id 'com.google.devtools.ksp' version '1.7.0-1.0.6'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.0'
 }
 
 android {
@@ -78,6 +79,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$rootProject.ext.versions.room"
     implementation "androidx.room:room-ktx:$rootProject.ext.versions.room"
     kapt "androidx.room:room-compiler:$rootProject.ext.versions.room"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$rootProject.ext.versions.kotlinxSerialization"
 
     testImplementation "junit:junit:$rootProject.ext.versions.junit"
 

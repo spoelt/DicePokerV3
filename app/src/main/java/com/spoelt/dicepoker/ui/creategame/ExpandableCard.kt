@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.spoelt.dicepoker.R
 import com.spoelt.dicepoker.ui.components.HorizontalSpacer
 import com.spoelt.dicepoker.ui.theme.DicePokerTheme
@@ -44,15 +43,15 @@ fun ExpandableCard(
         )
     ) {
         Row(
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_12)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_medium)),
+                modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_24)),
                 imageVector = icon,
                 contentDescription = stringResource(id = R.string.content_description_columns_icon)
             )
-            HorizontalSpacer(width = 12.dp)
+            HorizontalSpacer(width = dimensionResource(id = R.dimen.spacer_12))
             Text(
                 modifier = Modifier.weight(1f),
                 text = if (selectedValue > 0) {
@@ -62,7 +61,7 @@ fun ExpandableCard(
                 }
             )
             Icon(
-                modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_medium)),
+                modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_24)),
                 imageVector = Icons.Default.ExpandMore,
                 contentDescription = stringResource(id = R.string.content_description_expand_more)
             )

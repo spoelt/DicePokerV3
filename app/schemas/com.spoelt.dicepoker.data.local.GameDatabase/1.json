@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "345cd30ca921cf63dcfe2dcefda2f0c2",
+    "identityHash": "e119067fa612dc5c5965c03e59faea2c",
     "entities": [
       {
         "tableName": "Game",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "Player",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`player_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `played_game_id` BLOB NOT NULL, `name` TEXT NOT NULL, `score_column_one` INTEGER NOT NULL, `has_won_column_one` INTEGER NOT NULL, `score_column_two` INTEGER, `has_won_column_two` INTEGER, `score_column_three` INTEGER, `has_won_column_three` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`player_id` INTEGER NOT NULL, `played_game_id` BLOB NOT NULL, `name` TEXT NOT NULL, `score_column_one` INTEGER NOT NULL, `has_won_column_one` INTEGER NOT NULL, `score_column_two` INTEGER, `has_won_column_two` INTEGER, `score_column_three` INTEGER, `has_won_column_three` INTEGER, PRIMARY KEY(`player_id`))",
         "fields": [
           {
             "fieldPath": "playerId",
@@ -99,7 +99,7 @@
           "columnNames": [
             "player_id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -108,7 +108,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '345cd30ca921cf63dcfe2dcefda2f0c2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e119067fa612dc5c5965c03e59faea2c')"
     ]
   }
 }

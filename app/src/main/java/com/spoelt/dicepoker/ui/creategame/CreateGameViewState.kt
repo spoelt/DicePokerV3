@@ -42,28 +42,4 @@ sealed class CreateGameViewState(
         isColumnCardExpanded = isColumnCardExpanded,
         isPlayerCardExpanded = isPlayerCardExpanded
     )
-
-    /**
-     * The state of the screen as the user is attempting to create a game.
-     */
-    data class Creating(
-        override val gameOptions: GameOptions,
-        override val isColumnCardExpanded: Boolean,
-        override val isPlayerCardExpanded: Boolean
-    ) : CreateGameViewState(
-        gameOptions = gameOptions,
-        slidersEnabled = false,
-        isColumnCardExpanded = isColumnCardExpanded,
-        isPlayerCardExpanded = isPlayerCardExpanded
-    )
-
-    /**
-     * The state when the game options have successfully been chosen.
-     */
-    data class Created(
-        override val gameOptions: GameOptions
-    ) : CreateGameViewState(
-        gameOptions = gameOptions,
-        slidersEnabled = false
-    )
 }

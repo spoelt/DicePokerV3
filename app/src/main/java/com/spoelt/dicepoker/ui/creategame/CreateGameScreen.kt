@@ -18,8 +18,10 @@ fun CreateGameScreen(
     val viewState by viewModel.viewState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.navigateToNameInput.collect {
-            if (it) navigator.navigate(NameInputScreenDestination(navArgs = viewState.gameOptions))
+        viewModel.navigateToNameInput.collect { shouldNavigate ->
+            if (shouldNavigate) {
+                navigator.navigate(NameInputScreenDestination(navArgs = viewState.gameOptions))
+            }
         }
     }
 

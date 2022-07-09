@@ -2,13 +2,10 @@ package com.spoelt.dicepoker.ui.creategame
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
@@ -64,46 +61,34 @@ fun CreateGameContent(
     Surface(
         color = MaterialTheme.colors.background
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(dimensionResource(id = R.dimen.padding_24))
+                .padding(dimensionResource(id = R.dimen.padding_24)),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                DicePokerLogo()
+            DicePokerLogo()
 
-                VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_48))
+            VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_48))
 
-                GameOptions(
-                    gameOptions = viewState.gameOptions,
-                    slidersEnabled = viewState.slidersEnabled,
-                    isColumnCardExpanded = viewState.isColumnCardExpanded,
-                    isPlayerCardExpanded = viewState.isPlayerCardExpanded,
-                    onColumnsSelected = onColumnsSelected,
-                    onPlayersSelected = onPlayersSelected,
-                    onColumnCardClicked = onColumnCardClicked,
-                    onPlayerCardClicked = onPlayerCardClicked
-                )
+            GameOptions(
+                gameOptions = viewState.gameOptions,
+                slidersEnabled = viewState.slidersEnabled,
+                isColumnCardExpanded = viewState.isColumnCardExpanded,
+                isPlayerCardExpanded = viewState.isPlayerCardExpanded,
+                onColumnsSelected = onColumnsSelected,
+                onPlayersSelected = onPlayersSelected,
+                onColumnCardClicked = onColumnCardClicked,
+                onPlayerCardClicked = onPlayerCardClicked
+            )
 
-                VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_20))
+            VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_20))
 
-                PrimaryButton(
-                    text = stringResource(id = R.string.next),
-                    onClick = onNextClicked,
-                    enabled = viewState.buttonEnabled
-                )
-            }
-
-            if (viewState is CreateGameViewState.Creating) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .align(Alignment.Center)
-                )
-            }
+            PrimaryButton(
+                text = stringResource(id = R.string.next),
+                onClick = onNextClicked,
+                enabled = viewState.buttonEnabled
+            )
         }
     }
 }
@@ -215,14 +200,6 @@ class CreateGameViewStateProvider : PreviewParameterProvider<CreateGameViewState
                     gameOptions,
                     isColumnCardExpanded = true,
                     isPlayerCardExpanded = false
-                ),
-                CreateGameViewState.Creating(
-                    gameOptions,
-                    isColumnCardExpanded = true,
-                    isPlayerCardExpanded = false
-                ),
-                CreateGameViewState.Created(
-                    gameOptions = gameOptions
                 )
             )
         }

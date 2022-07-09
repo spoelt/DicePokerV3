@@ -78,10 +78,6 @@ class CreateGameViewModel @Inject constructor() : ViewModel() {
         val gameOptions = _viewState.value.gameOptions
         val areGameOptionsValid = gameOptions.numberOfColumns > 0 && gameOptions.numberOfPlayers > 0
 
-        _viewState.value = CreateGameViewState.Created(
-            gameOptions = gameOptions
-        )
-
         viewModelScope.launch {
             _navigateToNameInput.emit(areGameOptionsValid)
         }

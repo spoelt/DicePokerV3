@@ -10,6 +10,6 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class GameOptions(
-    val numberOfColumns: Float = 0f,
-    val numberOfPlayers: Float = 0f
+    val numberOfColumns: Int = 0,
+    val numberOfPlayers: Int = 0
 )

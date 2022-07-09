@@ -14,6 +14,7 @@ import com.spoelt.dicepoker.domain.model.GameOptions
  * @property[isPlayerCardExpanded] True if the card displaying the number of players has been
  * clicked, false otherwise.
  */
+
 sealed class CreateGameViewState(
     open val gameOptions: GameOptions,
     open val slidersEnabled: Boolean = true,
@@ -57,25 +58,12 @@ sealed class CreateGameViewState(
     )
 
     /**
-     * The state of the screen when there is an error creating a game.
+     * The state when the game options have successfully been chosen.
      */
-    data class CreationError(
-        override val gameOptions: GameOptions,
-        val errorMessage: String,
-        override val isColumnCardExpanded: Boolean,
-        override val isPlayerCardExpanded: Boolean
+    data class Created(
+        override val gameOptions: GameOptions
     ) : CreateGameViewState(
         gameOptions = gameOptions,
-        buttonEnabled = true,
-        isColumnCardExpanded = isColumnCardExpanded,
-        isPlayerCardExpanded = isPlayerCardExpanded
-    )
-
-    /**
-     * The state when the game has successfully been created.
-     */
-    object Created : CreateGameViewState(
-        gameOptions = GameOptions(),
         slidersEnabled = false
     )
 }

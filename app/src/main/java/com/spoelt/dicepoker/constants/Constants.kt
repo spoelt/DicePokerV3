@@ -10,3 +10,5 @@ const val LOGO_WIDTH_PERCENTAGE = 0.6f
 
 const val EMPTY_STRING = ""
 const val SINGLE_LINE = 1
+
+const val BUTTON_VISIBILITY_MILLIS = 1000

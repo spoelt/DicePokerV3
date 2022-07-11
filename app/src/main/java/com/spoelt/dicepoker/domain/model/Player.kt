@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class Player(
     val playerId: Int,
-    val playedGameId: UUID,
-    val name: String,
-    val score: Score
+    val playedGameId: UUID? = null,
+    val name: String? = null,
+    val score: Score? = null
 )

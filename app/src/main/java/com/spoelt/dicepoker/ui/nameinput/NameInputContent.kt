@@ -1,11 +1,15 @@
 package com.spoelt.dicepoker.ui.nameinput
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +26,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ArrowForwardIos
@@ -41,11 +46,12 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.spoelt.dicepoker.R
+import com.spoelt.dicepoker.constants.BUTTON_VISIBILITY_MILLIS
 import com.spoelt.dicepoker.constants.EMPTY_STRING
 import com.spoelt.dicepoker.constants.SINGLE_LINE
-import com.spoelt.dicepoker.domain.model.Game
 import com.spoelt.dicepoker.domain.model.GameOptions
 import com.spoelt.dicepoker.domain.model.Player
+import com.spoelt.dicepoker.domain.model.PlayerNameDirection
 import com.spoelt.dicepoker.domain.model.Score
 import com.spoelt.dicepoker.ui.components.PrimaryButton
 import com.spoelt.dicepoker.ui.components.VerticalSpacer
@@ -55,16 +61,17 @@ import java.util.UUID
 
 @Composable
 fun NameInputContent(
-    modifier: Modifier,
     viewState: NameInputViewState,
     onCloseClicked: () -> Unit,
     onPlayerNameChanged: (String) -> Unit,
-    onGoBackClicked: () -> Unit,
-    onGoForwardClicked: () -> Unit,
+    onGoBackClicked: (PlayerNameDirection) -> Unit,
+    onGoForwardClicked: (PlayerNameDirection) -> Unit,
     onStartGame: () -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(dimensionResource(id = R.dimen.padding_24))
     ) {
         CloseButton(
             modifier = Modifier
@@ -84,13 +91,10 @@ fun NameInputContent(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
-                name = when {
-                    viewState.players.isNotEmpty() -> viewState.players[viewState.currentIndex].name
-                    else -> EMPTY_STRING
-                },
+                name = viewState.players[viewState.currentIndex].name
+                    ?: EMPTY_STRING,
                 playerNumber = viewState.currentIndex.plus(1),
                 onPlayerNameChanged = onPlayerNameChanged,
-                errorMessage = (viewState as? NameInputViewState.InputError)?.errorMessage,
                 isButtonVisible = viewState.isStartGameButtonVisible,
                 onStartGame = onStartGame
             )
@@ -128,7 +132,7 @@ private fun CloseButton(
 @Composable
 private fun BackButtonColumn(
     canGoBack: Boolean,
-    onGoBackClicked: () -> Unit
+    onGoBackClicked: (PlayerNameDirection) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxHeight(),
@@ -136,7 +140,7 @@ private fun BackButtonColumn(
     ) {
         IconButton(
             enabled = canGoBack,
-            onClick = onGoBackClicked
+            onClick = { onGoBackClicked(PlayerNameDirection.BACK) }
         ) {
             Icon(
                 imageVector = Icons.Default.ArrowBackIos,
@@ -152,7 +156,6 @@ private fun PlayerNameInputColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     name: String,
     playerNumber: Int,
-    errorMessage: String?,
     isButtonVisible: Boolean,
     onPlayerNameChanged: (String) -> Unit,
     onStartGame: () -> Unit
@@ -179,7 +182,6 @@ private fun PlayerNameInputColumn(
             value = name,
             onValueChange = onPlayerNameChanged,
             maxLines = SINGLE_LINE,
-            isError = errorMessage != null,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
@@ -188,23 +190,21 @@ private fun PlayerNameInputColumn(
                 onNext = {
                     focusManager.clearFocus()
                 }
+            ),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                backgroundColor = MaterialTheme.colors.surface
             )
         )
 
-        errorMessage?.let { message ->
-            Text(
-                modifier = Modifier.padding(
-                    top = dimensionResource(id = R.dimen.padding_4),
-                    start = dimensionResource(id = R.dimen.padding_16)
-                ),
-                text = message,
-                color = MaterialTheme.colors.error
-            )
-        }
+        Spacer(modifier = Modifier.weight(1f))
 
-        if (isButtonVisible) {
-            VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_48))
-
+        AnimatedVisibility(
+            visible = isButtonVisible,
+            enter = fadeIn(
+                animationSpec = tween(BUTTON_VISIBILITY_MILLIS)
+            ),
+            exit = ExitTransition.None
+        ) {
             PrimaryButton(
                 text = stringResource(id = R.string.start_game_btn),
                 onClick = onStartGame,
@@ -217,7 +217,7 @@ private fun PlayerNameInputColumn(
 @Composable
 private fun ForwardButtonColumn(
     canGoForward: Boolean,
-    onGoForwardClicked: () -> Unit
+    onGoForwardClicked: (PlayerNameDirection) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxHeight(),
@@ -225,7 +225,9 @@ private fun ForwardButtonColumn(
     ) {
         IconButton(
             enabled = canGoForward,
-            onClick = onGoForwardClicked
+            onClick = {
+                onGoForwardClicked(PlayerNameDirection.FORWARD)
+            }
         ) {
             Icon(
                 imageVector = Icons.Default.ArrowForwardIos,
@@ -245,16 +247,12 @@ private fun ForwardButtonColumn(
 )
 @Composable
 @Suppress("UnusedPrivateMember")
-private fun CreateGameContentPreview(
+private fun NameInputContentPreview(
     @PreviewParameter(NameInputViewStateProvider::class)
     nameInputViewState: NameInputViewState
 ) {
     DicePokerTheme {
         NameInputContent(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.surface)
-                .padding(dimensionResource(id = R.dimen.padding_24)),
             viewState = nameInputViewState,
             onCloseClicked = {},
             onPlayerNameChanged = {},
@@ -270,8 +268,8 @@ class NameInputViewStateProvider : PreviewParameterProvider<NameInputViewState> 
     override val values: Sequence<NameInputViewState>
         get() {
             val gameOptions = GameOptions(
-                numberOfColumns = 1f,
-                numberOfPlayers = 2f
+                numberOfColumns = 1,
+                numberOfPlayers = 2
             )
             val players = listOf(
                 Player(
@@ -305,7 +303,8 @@ class NameInputViewStateProvider : PreviewParameterProvider<NameInputViewState> 
             return sequenceOf(
                 NameInputViewState.Initial,
                 NameInputViewState.LoadedNavArgument(
-                    gameOptions = gameOptions
+                    gameOptions = gameOptions,
+                    players = players
                 ),
                 NameInputViewState.Active(
                     gameOptions = gameOptions,
@@ -322,21 +321,6 @@ class NameInputViewStateProvider : PreviewParameterProvider<NameInputViewState> 
                     canGoBack = true,
                     canGoForward = false,
                     isStartGameButtonVisible = true
-                ),
-                NameInputViewState.InputError(
-                    gameOptions = gameOptions,
-                    players = players,
-                    errorMessage = "Name cannot be empty.",
-                    currentIndex = 1
-                ),
-                NameInputViewState.Complete(
-                    currentIndex = 1,
-                    game = Game(
-                        gameId = UUID.randomUUID(),
-                        numberOfColumns = gameOptions.numberOfColumns.toInt(),
-                        numberOfPlayers = gameOptions.numberOfPlayers.toInt(),
-                        players = players
-                    )
                 )
             )
         }

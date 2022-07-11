@@ -32,9 +32,9 @@ fun PlayerEntity.toPlayer() = Player(
 
 fun Player.toPlayerEntity() = PlayerEntity(
     playerId = playerId,
-    playedGameId = playedGameId,
-    name = name,
-    score = score.toScoreEntity()
+    playedGameId = playedGameId!!,
+    name = name!!,
+    score = score!!.toScoreEntity()
 )
 
 fun List<PlayerEntity>.toPlayersList() = this.map { it.toPlayer() }

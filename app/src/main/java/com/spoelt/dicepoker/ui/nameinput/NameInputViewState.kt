@@ -1,6 +1,5 @@
 package com.spoelt.dicepoker.ui.nameinput
 
-import com.spoelt.dicepoker.domain.model.Game
 import com.spoelt.dicepoker.domain.model.GameOptions
 import com.spoelt.dicepoker.domain.model.Player
 
@@ -34,9 +33,11 @@ sealed class NameInputViewState(
      * The state of the screen after the navigation argument has been loaded.
      */
     data class LoadedNavArgument(
-        override val gameOptions: GameOptions
+        override val gameOptions: GameOptions,
+        override val players: List<Player>
     ) : NameInputViewState(
-        gameOptions = gameOptions
+        gameOptions = gameOptions,
+        players = players
     )
 
     /**
@@ -48,8 +49,7 @@ sealed class NameInputViewState(
         override val currentIndex: Int,
         override val canGoBack: Boolean,
         override val canGoForward: Boolean,
-        override val isStartGameButtonVisible: Boolean,
-        val errorMessage: String? = null
+        override val isStartGameButtonVisible: Boolean
     ) : NameInputViewState(
         gameOptions = gameOptions,
         players = players,
@@ -57,30 +57,5 @@ sealed class NameInputViewState(
         canGoBack = canGoBack,
         canGoForward = canGoForward,
         isStartGameButtonVisible = isStartGameButtonVisible
-    )
-
-    /**
-     * The state of the screen when there was an error inputting a name.
-     */
-    data class InputError(
-        override val gameOptions: GameOptions,
-        override val players: List<Player>,
-        override val currentIndex: Int,
-        val errorMessage: String
-    ) : NameInputViewState(
-        gameOptions = gameOptions,
-        players = players,
-        currentIndex = currentIndex
-    )
-
-    /**
-     * The state of the screen when name input is complete for all players.
-     */
-    data class Complete(
-        override val currentIndex: Int,
-        val game: Game
-    ) : NameInputViewState(
-        gameOptions = GameOptions(),
-        currentIndex = currentIndex
     )
 }

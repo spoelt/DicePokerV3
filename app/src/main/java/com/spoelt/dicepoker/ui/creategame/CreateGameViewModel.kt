@@ -1,9 +1,13 @@
 package com.spoelt.dicepoker.ui.creategame
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -13,7 +17,10 @@ class CreateGameViewModel @Inject constructor() : ViewModel() {
         MutableStateFlow(CreateGameViewState.Initial)
     val viewState: StateFlow<CreateGameViewState> = _viewState
 
-    fun setSelectedColumns(columns: Float) {
+    private val _navigateToNameInput: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
+    val navigateToNameInput: SharedFlow<Boolean> = _navigateToNameInput
+
+    fun setSelectedColumns(columns: Int) {
         val currentGameOptions = _viewState.value.gameOptions
         val isColumnCardCurrentlyExpanded = _viewState.value.isColumnCardExpanded
         val isPlayerCardCurrentlyExpanded = _viewState.value.isPlayerCardExpanded
@@ -25,7 +32,7 @@ class CreateGameViewModel @Inject constructor() : ViewModel() {
         )
     }
 
-    fun setSelectedPlayers(players: Float) {
+    fun setSelectedPlayers(players: Int) {
         val currentGameOptions = _viewState.value.gameOptions
         val isColumnCardCurrentlyExpanded = _viewState.value.isColumnCardExpanded
         val isPlayerCardCurrentlyExpanded = _viewState.value.isPlayerCardExpanded
@@ -44,7 +51,7 @@ class CreateGameViewModel @Inject constructor() : ViewModel() {
 
         _viewState.value = CreateGameViewState.Active(
             gameOptions = when (currentGameOptions.numberOfPlayers) {
-                0f -> currentGameOptions.copy(numberOfPlayers = 1f)
+                0 -> currentGameOptions.copy(numberOfPlayers = 1)
                 else -> currentGameOptions
             },
             isColumnCardExpanded = isColumnCardCurrentlyExpanded,
@@ -59,11 +66,20 @@ class CreateGameViewModel @Inject constructor() : ViewModel() {
 
         _viewState.value = CreateGameViewState.Active(
             gameOptions = when (currentGameOptions.numberOfColumns) {
-                0f -> currentGameOptions.copy(numberOfColumns = 1f)
+                0 -> currentGameOptions.copy(numberOfColumns = 1)
                 else -> currentGameOptions
             },
             isColumnCardExpanded = !isColumnCardCurrentlyExpanded,
             isPlayerCardExpanded = isPlayerCardCurrentlyExpanded
         )
+    }
+
+    fun navigateToNameInput() {
+        val gameOptions = _viewState.value.gameOptions
+        val areGameOptionsValid = gameOptions.numberOfColumns > 0 && gameOptions.numberOfPlayers > 0
+
+        viewModelScope.launch {
+            _navigateToNameInput.emit(areGameOptionsValid)
+        }
     }
 }

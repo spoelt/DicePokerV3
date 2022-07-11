@@ -2,16 +2,12 @@ package com.spoelt.dicepoker.ui.creategame
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.ViewWeek
@@ -23,11 +19,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.sp
 import com.spoelt.dicepoker.R
 import com.spoelt.dicepoker.constants.LOGO_WIDTH_PERCENTAGE
 import com.spoelt.dicepoker.domain.model.GameOptions
@@ -36,10 +30,10 @@ import com.spoelt.dicepoker.ui.components.VerticalSpacer
 import com.spoelt.dicepoker.ui.theme.DicePokerTheme
 
 @Suppress("MagicNumber")
-private val COLUMN_RANGE = 1f..4f
+private val COLUMN_RANGE = 1f..3f
 
 @Suppress("MagicNumber")
-private val PLAYER_RANGE = 1f..7f
+private val PLAYER_RANGE = 1f..6f
 
 @Suppress("MagicNumber")
 private val PLAYER_STEPS = 4
@@ -58,8 +52,8 @@ private val PLAYER_STEPS = 4
 @Composable
 fun CreateGameContent(
     viewState: CreateGameViewState,
-    onColumnsSelected: (Float) -> Unit,
-    onPlayersSelected: (Float) -> Unit,
+    onColumnsSelected: (Int) -> Unit,
+    onPlayersSelected: (Int) -> Unit,
     onNextClicked: () -> Unit,
     onColumnCardClicked: () -> Unit,
     onPlayerCardClicked: () -> Unit
@@ -67,54 +61,34 @@ fun CreateGameContent(
     Surface(
         color = MaterialTheme.colors.background
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(dimensionResource(id = R.dimen.padding_24))
+                .padding(dimensionResource(id = R.dimen.padding_24)),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                DicePokerLogo()
+            DicePokerLogo()
 
-                VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_48))
+            VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_48))
 
-                GameOptions(
-                    gameOptions = viewState.gameOptions,
-                    slidersEnabled = viewState.slidersEnabled,
-                    isColumnCardExpanded = viewState.isColumnCardExpanded,
-                    isPlayerCardExpanded = viewState.isPlayerCardExpanded,
-                    onColumnsSelected = onColumnsSelected,
-                    onPlayersSelected = onPlayersSelected,
-                    onColumnCardClicked = onColumnCardClicked,
-                    onPlayerCardClicked = onPlayerCardClicked
-                )
+            GameOptions(
+                gameOptions = viewState.gameOptions,
+                slidersEnabled = viewState.slidersEnabled,
+                isColumnCardExpanded = viewState.isColumnCardExpanded,
+                isPlayerCardExpanded = viewState.isPlayerCardExpanded,
+                onColumnsSelected = onColumnsSelected,
+                onPlayersSelected = onPlayersSelected,
+                onColumnCardClicked = onColumnCardClicked,
+                onPlayerCardClicked = onPlayerCardClicked
+            )
 
-                VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_20))
+            VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_20))
 
-                if (viewState is CreateGameViewState.CreationError) {
-                    ErrorMessage(
-                        messageId = R.string.error_creating_game
-                    )
-
-                    VerticalSpacer(height = dimensionResource(id = R.dimen.spacer_20))
-                }
-
-                PrimaryButton(
-                    text = stringResource(id = R.string.next),
-                    onClick = onNextClicked,
-                    enabled = viewState.buttonEnabled
-                )
-            }
-
-            if (viewState is CreateGameViewState.Creating) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .align(Alignment.Center)
-                )
-            }
+            PrimaryButton(
+                text = stringResource(id = R.string.next),
+                onClick = onNextClicked,
+                enabled = viewState.buttonEnabled
+            )
         }
     }
 }
@@ -152,8 +126,8 @@ private fun GameOptions(
     slidersEnabled: Boolean,
     isColumnCardExpanded: Boolean,
     isPlayerCardExpanded: Boolean,
-    onColumnsSelected: (Float) -> Unit,
-    onPlayersSelected: (Float) -> Unit,
+    onColumnsSelected: (Int) -> Unit,
+    onPlayersSelected: (Int) -> Unit,
     onColumnCardClicked: () -> Unit,
     onPlayerCardClicked: () -> Unit
 ) {
@@ -182,19 +156,6 @@ private fun GameOptions(
         sliderEnabled = slidersEnabled,
         steps = PLAYER_STEPS,
         onCardClicked = onPlayerCardClicked
-    )
-}
-
-@Composable
-fun ErrorMessage(
-    messageId: Int
-) {
-    Text(
-        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_12)),
-        text = stringResource(id = messageId),
-        color = MaterialTheme.colors.error,
-        textAlign = TextAlign.Center,
-        lineHeight = 24.sp
     )
 }
 
@@ -229,8 +190,8 @@ class CreateGameViewStateProvider : PreviewParameterProvider<CreateGameViewState
     override val values: Sequence<CreateGameViewState>
         get() {
             val gameOptions = GameOptions(
-                numberOfColumns = 1f,
-                numberOfPlayers = 2f
+                numberOfColumns = 1,
+                numberOfPlayers = 2
             )
 
             return sequenceOf(
@@ -239,19 +200,7 @@ class CreateGameViewStateProvider : PreviewParameterProvider<CreateGameViewState
                     gameOptions,
                     isColumnCardExpanded = true,
                     isPlayerCardExpanded = false
-                ),
-                CreateGameViewState.Creating(
-                    gameOptions,
-                    isColumnCardExpanded = true,
-                    isPlayerCardExpanded = false
-                ),
-                CreateGameViewState.CreationError(
-                    gameOptions = gameOptions,
-                    errorMessage = "Something went wrong.",
-                    isColumnCardExpanded = true,
-                    isPlayerCardExpanded = false
-                ),
-                CreateGameViewState.Created
+                )
             )
         }
 }

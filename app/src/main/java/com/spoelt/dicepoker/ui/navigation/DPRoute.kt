@@ -10,7 +10,6 @@ import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.spoelt.dicepoker.R
 import com.spoelt.dicepoker.destinations.CreateGameScreenDestination
 import com.spoelt.dicepoker.destinations.HighScoresScreenDestination
-import com.spoelt.dicepoker.destinations.HomeScreenDestination
 import com.spoelt.dicepoker.destinations.RulesScreenDestination
 
 sealed class DPRoute(
@@ -19,7 +18,7 @@ sealed class DPRoute(
     @StringRes val label: Int
 ) {
     object Home : DPRoute(
-        destination = HomeScreenDestination,
+        destination = CreateGameScreenDestination,
         icon = Icons.Default.Home,
         label = R.string.bottom_bar_home
     )
@@ -44,7 +43,6 @@ val bottomBarRoutes = listOf(
 )
 
 val routesWithVisibleBottomBar = listOf(
-    HomeScreenDestination.route,
     HighScoresScreenDestination.route,
     RulesScreenDestination.route,
     CreateGameScreenDestination.route

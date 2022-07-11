@@ -6,25 +6,27 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.navigation.navigate
 import com.spoelt.dicepoker.ui.theme.DicePokerTheme
 
 @Composable
 fun DPBottomBar(
-    currentDestination: NavDestination?,
-    bottomBarState: BottomBarState,
-    navController: NavController,
+    navController: NavController
 ) {
-    if (bottomBarState == BottomBarState.VISIBLE) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    if (routesWithVisibleBottomBar.contains(currentRoute)) {
         BottomNavigation {
             bottomBarRoutes.forEach { b ->
                 BottomNavigationItem(
-                    selected = currentDestination == b.destination,
+                    selected = currentRoute == b.destination.route,
                     onClick = {
                         navController.navigate(b.destination) {
                             launchSingleTop = true
@@ -32,11 +34,11 @@ fun DPBottomBar(
                     },
                     icon = {
                         Icon(
-                            b.icon,
+                            imageVector = b.icon,
                             contentDescription = stringResource(b.label)
                         )
                     },
-                    label = { Text(stringResource(b.label)) },
+                    label = { Text(text = stringResource(b.label)) },
                 )
             }
         }
@@ -56,9 +58,7 @@ fun DPBottomBar(
 private fun DPBottomBarPreview() {
     DicePokerTheme {
         DPBottomBar(
-            bottomBarState = BottomBarState.VISIBLE,
-            navController = rememberNavController(),
-            currentDestination = null
+            navController = rememberNavController()
         )
     }
 }

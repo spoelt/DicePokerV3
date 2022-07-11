@@ -17,6 +17,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ViewWeek
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -27,12 +31,13 @@ import com.spoelt.dicepoker.R
 import com.spoelt.dicepoker.ui.components.HorizontalSpacer
 import com.spoelt.dicepoker.ui.theme.DicePokerTheme
 import com.spoelt.dicepoker.ui.theme.ExpandedCardShape
+import kotlin.math.roundToInt
 
 @Composable
 fun ExpandedCard(
     modifier: Modifier,
-    selectedValue: Float,
-    onSelectedValueChanged: (Float) -> Unit,
+    selectedValue: Int,
+    onSelectedValueChanged: (Int) -> Unit,
     icon: ImageVector,
     selectionTextResId: Int,
     valueRange: ClosedFloatingPointRange<Float>,
@@ -40,6 +45,10 @@ fun ExpandedCard(
     sliderEnabled: Boolean,
     onCardClicked: () -> Unit
 ) {
+    var sliderPosition by remember(selectedValue) {
+        mutableStateOf(selectedValue.toFloat())
+    }
+
     Card(
         modifier = modifier.clickable { onCardClicked() },
         shape = ExpandedCardShape,
@@ -53,25 +62,11 @@ fun ExpandedCard(
                 .padding(dimensionResource(id = R.dimen.padding_12))
                 .fillMaxWidth()
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_24)),
-                    imageVector = icon,
-                    contentDescription = stringResource(id = R.string.content_description_columns_icon)
-                )
-                HorizontalSpacer(width = dimensionResource(id = R.dimen.spacer_12))
-                Text(
-                    modifier = Modifier.weight(1f),
-                    text = stringResource(id = selectionTextResId, selectedValue.toInt())
-                )
-                Icon(
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_24)),
-                    imageVector = Icons.Default.ExpandLess,
-                    contentDescription = stringResource(id = R.string.content_description_expand_more)
-                )
-            }
+            HeaderWithIcons(
+                icon = icon,
+                selectionTextResId = selectionTextResId,
+                sliderPosition = sliderPosition
+            )
             Slider(
                 modifier = Modifier
                     .padding(
@@ -79,13 +74,47 @@ fun ExpandedCard(
                         end = dimensionResource(id = R.dimen.padding_48)
                     )
                     .fillMaxWidth(),
-                value = selectedValue,
-                onValueChange = { onSelectedValueChanged(it) },
+                value = sliderPosition,
+                onValueChange = {
+                    // slider position is first rounded to nearest integer value in order to
+                    // prevent the slider thumb from jumping once the number conversion is complete
+                    sliderPosition = it.roundToInt().toFloat()
+                },
+                onValueChangeFinished = {
+                    onSelectedValueChanged(sliderPosition.toInt())
+                },
                 valueRange = valueRange,
                 steps = steps,
                 enabled = sliderEnabled
             )
         }
+    }
+}
+
+@Composable
+private fun HeaderWithIcons(
+    icon: ImageVector,
+    selectionTextResId: Int,
+    sliderPosition: Float
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_24)),
+            imageVector = icon,
+            contentDescription = stringResource(id = R.string.content_description_columns_icon)
+        )
+        HorizontalSpacer(width = dimensionResource(id = R.dimen.spacer_12))
+        Text(
+            modifier = Modifier.weight(1f),
+            text = stringResource(id = selectionTextResId, sliderPosition.toInt())
+        )
+        Icon(
+            modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_24)),
+            imageVector = Icons.Default.ExpandLess,
+            contentDescription = stringResource(id = R.string.content_description_expand_more)
+        )
     }
 }
 
@@ -103,7 +132,7 @@ private fun ExpandedCardInitialStatePreview() {
     DicePokerTheme {
         ExpandedCard(
             modifier = Modifier,
-            selectedValue = 1f,
+            selectedValue = 1,
             onSelectedValueChanged = {},
             icon = Icons.Default.ViewWeek,
             selectionTextResId = R.string.columns_selected,
@@ -129,7 +158,7 @@ private fun ExpandedCardValueSelectedPreview() {
     DicePokerTheme {
         ExpandedCard(
             modifier = Modifier,
-            selectedValue = 2f,
+            selectedValue = 2,
             onSelectedValueChanged = {},
             icon = Icons.Default.ViewWeek,
             selectionTextResId = R.string.columns_selected,

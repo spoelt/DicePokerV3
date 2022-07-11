@@ -14,8 +14,8 @@ import com.spoelt.dicepoker.ui.theme.DicePokerTheme
 fun GameOptionCard(
     modifier: Modifier = Modifier,
     isExpanded: Boolean,
-    selectedValue: Float,
-    onSelectedValueChanged: (Float) -> Unit,
+    selectedValue: Int,
+    onSelectedValueChanged: (Int) -> Unit,
     icon: ImageVector,
     initialTextResId: Int,
     selectionTextResId: Int,
@@ -61,7 +61,7 @@ private fun GameOptionCardExpandablePreview() {
     DicePokerTheme {
         GameOptionCard(
             isExpanded = false,
-            selectedValue = 1f,
+            selectedValue = 1,
             onSelectedValueChanged = {},
             icon = Icons.Default.ViewWeek,
             initialTextResId = R.string.select_number_of_columns,
@@ -87,7 +87,7 @@ private fun GameOptionCardExpandedPreview() {
     DicePokerTheme {
         GameOptionCard(
             isExpanded = true,
-            selectedValue = 1f,
+            selectedValue = 1,
             onSelectedValueChanged = {},
             icon = Icons.Default.ViewWeek,
             initialTextResId = R.string.select_number_of_columns,

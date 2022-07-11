@@ -28,7 +28,7 @@ import com.spoelt.dicepoker.ui.theme.ExpandableCardShape
 @Composable
 fun ExpandableCard(
     modifier: Modifier,
-    selectedValue: Float,
+    selectedValue: Int,
     icon: ImageVector,
     initialTextResId: Int,
     selectionTextResId: Int,
@@ -55,7 +55,7 @@ fun ExpandableCard(
             Text(
                 modifier = Modifier.weight(1f),
                 text = if (selectedValue > 0) {
-                    stringResource(id = selectionTextResId, selectedValue.toInt())
+                    stringResource(id = selectionTextResId, selectedValue)
                 } else {
                     stringResource(id = initialTextResId)
                 }
@@ -83,7 +83,7 @@ private fun ExpandableCardInitialStatePreview() {
     DicePokerTheme {
         ExpandableCard(
             modifier = Modifier,
-            selectedValue = 0f,
+            selectedValue = 0,
             icon = Icons.Default.ViewWeek,
             initialTextResId = R.string.select_number_of_columns,
             selectionTextResId = R.string.columns_selected,
@@ -106,7 +106,7 @@ private fun ExpandableCardSelectedValuePreview() {
     DicePokerTheme {
         ExpandableCard(
             modifier = Modifier,
-            selectedValue = 2f,
+            selectedValue = 2,
             icon = Icons.Default.ViewWeek,
             initialTextResId = R.string.select_number_of_columns,
             selectionTextResId = R.string.columns_selected,

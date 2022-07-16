@@ -6,6 +6,8 @@ import com.spoelt.dicepoker.data.local.GameDao
 import com.spoelt.dicepoker.data.local.GameDatabase
 import com.spoelt.dicepoker.data.repository.GameRepository
 import com.spoelt.dicepoker.data.repository.GameRepositoryImpl
+import com.spoelt.dicepoker.domain.usecase.CreateGameUseCase
+import com.spoelt.dicepoker.domain.usecase.CreateGameUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +34,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGameRepository(dao: GameDao): GameRepository = GameRepositoryImpl(
-        dao = dao
-    )
+    fun provideGameRepository(dao: GameDao): GameRepository = GameRepositoryImpl(dao = dao)
+
+    @Provides
+    fun provideCreateGameUseCase(repository: GameRepository): CreateGameUseCase =
+        CreateGameUseCaseImpl(gameRepository = repository)
 }

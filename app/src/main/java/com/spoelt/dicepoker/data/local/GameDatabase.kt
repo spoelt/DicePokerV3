@@ -10,7 +10,7 @@ import com.spoelt.dicepoker.data.model.PlayerEntity
         GameEntity::class,
         PlayerEntity::class
     ],
-    version = 1
+    version = 2
 )
 abstract class GameDatabase : RoomDatabase() {
     abstract fun dao(): GameDao

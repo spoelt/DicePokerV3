@@ -80,6 +80,8 @@ dependencies {
     implementation "androidx.room:room-ktx:$rootProject.ext.versions.room"
     kapt "androidx.room:room-compiler:$rootProject.ext.versions.room"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$rootProject.ext.versions.kotlinxSerialization"
+    implementation "com.google.accompanist:accompanist-pager:$rootProject.ext.versions.accompanist"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$rootProject.ext.versions.accompanist"
 
     testImplementation "junit:junit:$rootProject.ext.versions.junit"
 

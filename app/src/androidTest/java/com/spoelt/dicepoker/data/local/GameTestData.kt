@@ -5,7 +5,7 @@ import com.spoelt.dicepoker.data.model.PlayerEntity
 import com.spoelt.dicepoker.data.model.ScoreEntity
 import java.util.UUID
 
-val gameId: UUID = UUID.randomUUID()
+val gameId: String = UUID.randomUUID().toString()
 
 val testGame = GameEntity(
     gameId = gameId,
@@ -15,7 +15,7 @@ val testGame = GameEntity(
 
 val testPlayers = (1..4).map { i ->
     PlayerEntity(
-        playerId = i,
+        playerId = UUID.randomUUID().toString(),
         playedGameId = gameId,
         name = "Player $i",
         score = ScoreEntity(
@@ -31,7 +31,7 @@ val testPlayers = (1..4).map { i ->
 
 val testGames = (1..4).map { i ->
     GameEntity(
-        gameId = UUID.randomUUID(),
+        gameId = UUID.randomUUID().toString(),
         numberOfColumns = i,
         numberOfPlayers = i
     )

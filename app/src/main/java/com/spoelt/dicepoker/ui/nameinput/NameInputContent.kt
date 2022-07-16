@@ -52,7 +52,6 @@ import com.spoelt.dicepoker.constants.SINGLE_LINE
 import com.spoelt.dicepoker.domain.model.GameOptions
 import com.spoelt.dicepoker.domain.model.Player
 import com.spoelt.dicepoker.domain.model.PlayerNameDirection
-import com.spoelt.dicepoker.domain.model.Score
 import com.spoelt.dicepoker.ui.components.PrimaryButton
 import com.spoelt.dicepoker.ui.components.VerticalSpacer
 import com.spoelt.dicepoker.ui.theme.DicePokerTheme
@@ -273,30 +272,12 @@ class NameInputViewStateProvider : PreviewParameterProvider<NameInputViewState> 
             )
             val players = listOf(
                 Player(
-                    playerId = 0,
-                    playedGameId = UUID.randomUUID(),
-                    name = "Player 1",
-                    score = Score(
-                        scoreColumnOne = 0,
-                        hasWonColumnOne = false,
-                        scoreColumnTwo = null,
-                        hasWonColumnTwo = null,
-                        scoreColumnThree = null,
-                        hasWonColumnThree = null
-                    )
+                    playerId = UUID.randomUUID().toString(),
+                    name = "Player 1"
                 ),
                 Player(
-                    playerId = 1,
-                    playedGameId = UUID.randomUUID(),
-                    name = "Player 2",
-                    score = Score(
-                        scoreColumnOne = 0,
-                        hasWonColumnOne = false,
-                        scoreColumnTwo = null,
-                        hasWonColumnTwo = null,
-                        scoreColumnThree = null,
-                        hasWonColumnThree = null
-                    )
+                    playerId = UUID.randomUUID().toString(),
+                    name = "Player 2"
                 )
             )
 

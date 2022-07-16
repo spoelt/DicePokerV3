@@ -8,7 +8,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.spoelt.dicepoker.destinations.GameScreenDestination
+import com.spoelt.dicepoker.domain.model.CreateGameResult.Failure
+import com.spoelt.dicepoker.domain.model.CreateGameResult.Success
 import com.spoelt.dicepoker.domain.model.GameOptions
+import timber.log.Timber
 
 @Destination(navArgsDelegate = GameOptions::class)
 @Composable
@@ -19,10 +22,15 @@ fun NameInputScreen(
     val viewState by viewModel.viewState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.startGame.collect {
-            navigator.apply {
-                popBackStack()
-                navigate(GameScreenDestination)
+        viewModel.startGame.collect { result ->
+            when (result) {
+                Failure -> Timber.e("Couldn't start game")
+                is Success -> {
+                    navigator.apply {
+                        popBackStack()
+                        navigate(GameScreenDestination(navArgs = result.gameNavArg))
+                    }
+                }
             }
         }
     }

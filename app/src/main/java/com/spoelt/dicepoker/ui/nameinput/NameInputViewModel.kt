@@ -3,12 +3,13 @@ package com.spoelt.dicepoker.ui.nameinput
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spoelt.dicepoker.domain.model.Game
+import com.spoelt.dicepoker.domain.model.CreateGameResult
 import com.spoelt.dicepoker.domain.model.GameOptions
 import com.spoelt.dicepoker.domain.model.Player
 import com.spoelt.dicepoker.domain.model.PlayerNameDirection
 import com.spoelt.dicepoker.domain.model.PlayerNameDirection.BACK
 import com.spoelt.dicepoker.domain.model.PlayerNameDirection.FORWARD
+import com.spoelt.dicepoker.domain.usecase.CreateGameUseCase
 import com.spoelt.dicepoker.navArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,15 +22,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NameInputViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val createGameUseCase: CreateGameUseCase
 ) : ViewModel() {
 
     private val _viewState: MutableStateFlow<NameInputViewState> =
         MutableStateFlow(NameInputViewState.Initial)
     val viewState: StateFlow<NameInputViewState> = _viewState
 
-    private val _startGame: MutableSharedFlow<Game> = MutableSharedFlow()
-    val startGame: SharedFlow<Game> = _startGame
+    private val _startGame: MutableSharedFlow<CreateGameResult> = MutableSharedFlow()
+    val startGame: SharedFlow<CreateGameResult> = _startGame
 
     init {
         val gameOptions = savedStateHandle.navArgs<GameOptions>()
@@ -40,8 +42,8 @@ class NameInputViewModel @Inject constructor(
         )
     }
 
-    private fun createPlayerList(numberOfPlayers: Int) = (1..numberOfPlayers).map { i ->
-        Player(playerId = i)
+    private fun createPlayerList(numberOfPlayers: Int) = (1..numberOfPlayers).map {
+        Player(playerId = UUID.randomUUID().toString())
     }
 
     fun updateIndex(direction: PlayerNameDirection) {
@@ -103,22 +105,11 @@ class NameInputViewModel @Inject constructor(
 
     fun startGame() {
         viewModelScope.launch {
-            val gameId = UUID.randomUUID()
-            val options = _viewState.value.gameOptions
-            val game = Game(
-                gameId = gameId,
-                numberOfColumns = options.numberOfColumns,
-                numberOfPlayers = options.numberOfPlayers,
-                players = updatePlayedGameId(
-                    players = _viewState.value.players,
-                    id = gameId
-                )
+            val result = createGameUseCase.invoke(
+                gameOptions = _viewState.value.gameOptions,
+                players = _viewState.value.players
             )
-            _startGame.emit(game)
+            _startGame.emit(result)
         }
-    }
-
-    private fun updatePlayedGameId(players: List<Player>, id: UUID) = players.map { player ->
-        player.copy(playedGameId = id)
     }
 }

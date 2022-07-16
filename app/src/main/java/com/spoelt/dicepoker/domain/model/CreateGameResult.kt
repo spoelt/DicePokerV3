@@ -7,10 +7,10 @@ sealed class CreateGameResult {
     /**
      * The attempt to create a new game was successful.
      */
-    object Success : CreateGameResult()
+    data class Success(val gameNavArg: GameNavArg) : CreateGameResult()
 
     /**
-     * This will be returned for any unknown expection when trying to create a new game.
+     * This will be returned for any unknown exception when trying to create a new game.
      */
     object Failure : CreateGameResult()
 }

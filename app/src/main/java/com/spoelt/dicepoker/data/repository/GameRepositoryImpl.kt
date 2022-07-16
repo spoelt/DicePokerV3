@@ -1,14 +1,13 @@
 package com.spoelt.dicepoker.data.repository
 
-import com.spoelt.dicepoker.core.domain.DataState
 import com.spoelt.dicepoker.data.local.GameDao
-import com.spoelt.dicepoker.domain.model.Game
+import com.spoelt.dicepoker.domain.model.CreateGameResult
+import com.spoelt.dicepoker.domain.model.GameNavArg
+import com.spoelt.dicepoker.domain.model.GameOptions
+import com.spoelt.dicepoker.domain.model.Player
 import com.spoelt.dicepoker.domain.model.toGameEntity
-import com.spoelt.dicepoker.domain.model.toGameList
 import com.spoelt.dicepoker.domain.model.toPlayersEntityList
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
+import java.util.UUID
 import javax.inject.Inject
 
 /**
@@ -19,7 +18,7 @@ class GameRepositoryImpl @Inject constructor(
     private val dao: GameDao
 ) : GameRepository {
 
-    override fun fetchSavedGames(): Flow<DataState<List<Game>>> = dao
+    /*override fun fetchSavedGames(): Flow<DataState<List<Game>>> = dao
         .getGamesWithPlayers()
         .map { entityList ->
             DataState.Success(entityList.toGameList())
@@ -30,9 +29,30 @@ class GameRepositoryImpl @Inject constructor(
 
     override suspend fun saveGame(game: Game): Boolean {
         dao.apply {
-            val insertedGameRow = insertGame(game.toGameEntity())
+            val insertedGameRow = insertGame(game.toGameEntity(game.))
             val insertedPlayers = insertPlayers(game.players.toPlayersEntityList())
             return insertedGameRow > 0 && insertedPlayers.size == game.players.size
+        }
+    }*/
+
+    override suspend fun createGame(
+        gameOptions: GameOptions,
+        players: List<Player>
+    ): CreateGameResult {
+        dao.apply {
+            val gameId = UUID.randomUUID().toString()
+            val insertedGameRow = insertGame(
+                game = gameOptions.toGameEntity(gameId = gameId)
+            )
+            val insertedPlayers = insertPlayers(
+                players = players.toPlayersEntityList(gameId = gameId)
+            )
+            return when {
+                insertedGameRow > 0 && insertedPlayers.size == players.size -> CreateGameResult.Success(
+                    gameNavArg = GameNavArg(id = gameId)
+                )
+                else -> CreateGameResult.Failure
+            }
         }
     }
 }
